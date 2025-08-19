@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Canal OAB – Login</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 720px; margin: 40px auto; text-align:center; }
+    .box { border: 1px solid #ddd; padding: 24px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Canal OAB</h1>
+  <p>Faça login com sua conta Google para acessar o sistema.</p>
+
+  <div id="g_id_onload"
+       data-client_id="721487837675-2qmg2m7742j5110l1b4tqfbml4kgnvjr.apps.googleusercontent.com"
+       data-callback="onGoogleSignIn"></div>
+  <div class="g_id_signin" data-type="standard"></div>
+
+  <script>
+    // 👉 Cole aqui a URL do seu Apps Script (Implantar > Gerenciar implantações > URL)
+    const WEB_APP_URL = "https://script.google.com/macros/s/SEU_DEPLOY_ID/exec";
+
+    function onGoogleSignIn(resp) {
+      const idToken = resp.credential;
+      // Envia o token ao Apps Script via POST
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = WEB_APP_URL;
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'id_token';
+      input.value = idToken;
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+    }
+  </script>
+</body>
+</html>
